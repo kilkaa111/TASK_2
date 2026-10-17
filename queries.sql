@@ -53,21 +53,37 @@ SELECT * FROM orders WHERE order_date BETWEEN '2025-01-01' AND '2025-12-31';
 -- ===================== Часть B. Подсчёты и группировка =====================
 
 -- Задание 10. Сколько всего товаров в каталоге
-
+SELECT COUNT(*) FROM orders;
 
 -- Задание 11. Средняя цена товара, округлённая до целых
-
+SELECT ROUND(AVG(price))
+FROM products;
 
 -- Задание 12. Город и сколько в нём клиентов. Сначала города с большим числом клиентов, при равенстве — по алфавиту
+SELECT city, COUNT(*)
+FROM clients
+GROUP BY city
+ORDER BY COUNT(*) DESC, city ASC;
 
 
 -- Задание 13. Города, в которых больше одного клиента, и число клиентов в них
+SELECT city, COUNT(*) 
+FROM clients
+GROUP BY city
+HAVING COUNT(*) > 1;
 
 
 -- Задание 14. Номер категории и сколько всего штук товаров этой категории лежит на складе
+SELECT category_id, SUM(stock)
+FROM products
+GROUP BY category_id;
 
 
 -- Задание 15. Номер заказа и его сумма (количество × цена по всем строкам заказа)
+SELECT order_id, SUM(quantity * price)
+FROM order_items
+GROUP BY order_id;
+
 
 
 -- ===================== Часть C. Несколько таблиц =====================
