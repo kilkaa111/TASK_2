@@ -89,16 +89,31 @@ GROUP BY order_id;
 -- ===================== Часть C. Несколько таблиц =====================
 
 -- Задание 16. Название товара и название его категории
+SELECT p.name, c.name 
+FROM products p
+JOIN categories c ON c.id = p.category_id;
 
 
 -- Задание 17. Номер заказа, дата заказа и название клиента
-
+SELECT o.id , o.order_date, c.name 
+FROM orders o
+JOIN clients c ON c.id = o.client_id;
 
 -- Задание 18. Три клиента, которые купили больше всех: название клиента и сумма всех его заказов, от большей к меньшей
+SELECT c.name , SUM(oi.quantity * oi.price) AS total_spent
+FROM clients c
+JOIN orders o       ON o.client_id = c.id
+JOIN order_items oi ON oi.order_id = o.id
+GROUP BY c.id, c.name
+ORDER BY total_spent DESC
+LIMIT 3;
 
 
 -- Задание 19. Названия товаров, которые ни разу не заказывали
-
+SELECT p.name
+FROM products p
+LEFT JOIN order_items oi ON oi.product_id = p.id
+WHERE oi.product_id IS NULL;
 
 -- ===================== Часть D. Изменение данных =====================
 
